@@ -20,13 +20,15 @@ Allows users to jot down thoughts quickly and easily access them.
 
 ### How to Use?
 
-
+```bash
+npm start
+```
 
 ## Go Check us out
 
-### Demo Link:
+### Demo:
 
-
+![Note Taker App](./img/NoteTakerApp.png)
 
 
 ## License
