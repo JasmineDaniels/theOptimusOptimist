@@ -1,7 +1,8 @@
 const express = require('express');
 const noteData = require('./db/db.json')
 const fs = require('fs')
-const id = require('./helpers/uuid');
+const { v4: uuidv4 } = require('uuid');
+ 
 
 
 const PORT = process.env.PORT || 5001 
@@ -36,12 +37,13 @@ app.get('/api/notes/:id', (req, res) => { // get a note
 app.post('/api/notes', (req, res) => { 
     console.log(req.body)
     const { title, text } = req.body 
+    let id
 
     if (title && text){ 
         const newNote = {  
             title,
             text,
-            noteID: id
+            noteID: uuidv4(id)
         }
 
         noteData.push(newNote)
