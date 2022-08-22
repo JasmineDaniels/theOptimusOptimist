@@ -1,5 +1,5 @@
 const express = require('express');
-const noteData = require('./db/db.json')
+let noteData = require('./db/db.json')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
  
@@ -63,16 +63,22 @@ app.post('/api/notes', (req, res) => {
     }
 })
 
-app.delete(`/api/notes/:noteID`, (req, res) => { 
-    const requestedNote = noteData.findIndex(note => note.noteID == req.params.noteID)
+app.delete(`/api/notes/:noteID`, async (req, res) => { 
+    // const requestedNote = noteData.findIndex(note => note.noteID == req.params.noteID)
+    // console.log(requestedNote)
+
+    const requestedNote = noteData.find(note => note.noteID == req.params.noteID)
     console.log(requestedNote)
 
     if (requestedNote){
-        noteData.splice(requestedNote,1);
-        fs.writeFile('./db/db.json', JSON.stringify(noteData), (err, data) => {
+        //noteData.splice(requestedNote,1);
+        const list = noteData.filter(note => note != requestedNote)
+        ///const newData = fs.writeFile('./db/db.json', JSON.stringify(list));
+        fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
             err ? console.log(err) : console.log(`success`)
         });
-        res.json(noteData);
+        
+        res.json(list);
     } else res.json({
         message: "Note not found"
     })
