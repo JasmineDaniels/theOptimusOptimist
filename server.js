@@ -1,5 +1,5 @@
 const express = require('express');
-let noteData = require('./db/db.json')
+const noteData = require('./db/db.json')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
  
@@ -73,16 +73,14 @@ app.delete(`/api/notes/:noteID`, (req, res) => {
     if (requestedNote){
         //noteData.splice(requestedNote,1);
         const list = noteData.filter(note => note != requestedNote)
-        const newData = fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
+        fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
             err ? console.log(err) : console.log(`success`)
         })
-        noteData = newData
-        // fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
-        //     err ? console.log(err) : console.log(`success`)
-        // })
         
-        
-        res.json(noteData);
+        // const response = {
+        //     status: 'success',
+        // }
+        res.json(list);
          
         // noteData = newData
     } else res.json({
