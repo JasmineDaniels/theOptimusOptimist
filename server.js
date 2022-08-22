@@ -63,7 +63,7 @@ app.post('/api/notes', (req, res) => {
     }
 })
 
-app.delete(`/api/notes/:noteID`, async (req, res) => { 
+app.delete(`/api/notes/:noteID`, (req, res) => { 
     // const requestedNote = noteData.findIndex(note => note.noteID == req.params.noteID)
     // console.log(requestedNote)
 
@@ -73,12 +73,18 @@ app.delete(`/api/notes/:noteID`, async (req, res) => {
     if (requestedNote){
         //noteData.splice(requestedNote,1);
         const list = noteData.filter(note => note != requestedNote)
-        ///const newData = fs.writeFile('./db/db.json', JSON.stringify(list));
-        fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
+        const newData = fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
             err ? console.log(err) : console.log(`success`)
-        });
+        })
+        noteData = newData
+        // fs.writeFile('./db/db.json', JSON.stringify(list), (err, data) => {
+        //     err ? console.log(err) : console.log(`success`)
+        // })
         
-        res.json(list);
+        
+        res.json(noteData);
+         
+        // noteData = newData
     } else res.json({
         message: "Note not found"
     })
